@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kit List</title>
 
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
@@ -14,8 +14,10 @@
     <header>
         <img class="header-image" src="backpack.png" alt="backpack logo" />
         <h1 class="header-heading">Kit List</h1>
+        <span class="side-nav__open-button" onclick="openNav()">&#9776;</span>
     </header>
-    <nav class="side-nav">
+    <nav id="navbar" class="side-nav">
+        <a href="javascript:void(0)" class="side-nav__close-button" onclick="closeNav()">&times;</a>
         <h3 class="side-nav__heading">Categories</h3>
         <ul id="categories-list" class="side-nav__list"></ul>
     </nav>

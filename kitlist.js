@@ -1,6 +1,15 @@
 const categoryList = document.getElementById('categories-list');
 const listPanel = document.getElementById('list-panel');
 const nothingSelected = '<p>No categories selected...</p>';
+const nav = document.getElementById('navbar');
+
+function openNav() {
+    nav.style.width = "100%";
+}
+
+function closeNav() {
+    nav.removeAttribute("style");
+}
 
 function addNothingText() {
     if (listPanel.innerHTML == "") {
