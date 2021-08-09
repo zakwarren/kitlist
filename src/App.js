@@ -1,8 +1,9 @@
 import React from "react";
-import { CssBaseline, Typography } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 import { useGetTheme } from "theme";
+import { Layout } from "features";
 
 const App = () => {
   const theme = useGetTheme();
@@ -10,14 +11,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <main>
-        <nav>
-          <Typography variant="h1">Kit List</Typography>
-        </nav>
-        <header>
-          <h2>Select an option</h2>
-        </header>
-      </main>
+      <Layout />
     </ThemeProvider>
   );
 };
