@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { Divider, Drawer, Typography, IconButton } from "@material-ui/core";
 
-import { AppShell } from ".";
+import { AppShell } from "./AppShell";
 
 describe("<AppShell />", () => {
   let wrapper;
@@ -33,10 +33,10 @@ describe("<AppShell />", () => {
     expect(element).toHaveLength(1);
   });
 
-  it("should render multiple <Typography /> components", () => {
+  it("should render a <Typography /> component", () => {
     const element = wrapper.find(Typography);
 
-    expect(element).toHaveLength(2);
+    expect(element).toHaveLength(1);
   });
 
   it("should render a <Divider /> component", () => {
@@ -47,12 +47,6 @@ describe("<AppShell />", () => {
 
   it("should render a <main /> element", () => {
     const element = wrapper.find("main");
-
-    expect(element).toHaveLength(1);
-  });
-
-  it("should render a <header /> element", () => {
-    const element = wrapper.find("header");
 
     expect(element).toHaveLength(1);
   });

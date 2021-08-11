@@ -74,12 +74,7 @@ export const AppShell = (props) => {
           {drawer}
         </Drawer>
       </nav>
-      <main className={css.content}>
-        <header>
-          <Typography variant="h1">Kit List</Typography>
-        </header>
-        {children}
-      </main>
+      <main className={css.content}>{children}</main>
     </>
   );
 };
