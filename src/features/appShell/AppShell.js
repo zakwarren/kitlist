@@ -1,12 +1,10 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   makeStyles,
   Divider,
   Drawer,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
   IconButton,
   useTheme,
   useMediaQuery,
@@ -34,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AppShell = ({ children }) => {
+export const AppShell = (props) => {
+  const { sideBarContent, children } = props;
   const css = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -48,11 +47,7 @@ export const AppShell = ({ children }) => {
         Kit List
       </Typography>
       <Divider />
-      <List>
-        <ListItem button>
-          <ListItemText primary="Home" />
-        </ListItem>
-      </List>
+      {sideBarContent}
     </>
   );
 
@@ -87,4 +82,12 @@ export const AppShell = ({ children }) => {
       </main>
     </>
   );
+};
+
+AppShell.propTypes = {
+  sideBarContent: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]),
 };

@@ -1,14 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import {
-  Divider,
-  Drawer,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-} from "@material-ui/core";
+import { Divider, Drawer, Typography, IconButton } from "@material-ui/core";
 
 import { AppShell } from ".";
 
@@ -17,7 +9,7 @@ describe("<AppShell />", () => {
 
   beforeEach(() => {
     wrapper = shallow(
-      <AppShell>
+      <AppShell sideBarContent={<span>Test Side</span>}>
         <p>Test</p>
       </AppShell>
     );
@@ -53,20 +45,6 @@ describe("<AppShell />", () => {
     expect(element).toHaveLength(1);
   });
 
-  it("should render a <List /> component", () => {
-    const element = wrapper.find(List);
-
-    expect(element).toHaveLength(1);
-  });
-
-  it("should render one or more <ListItem /> components", () => {
-    const element = wrapper.find(ListItem);
-    const element2 = wrapper.find(ListItemText);
-
-    expect(element.length).toBeGreaterThanOrEqual(1);
-    expect(element2.length).toBeGreaterThanOrEqual(1);
-  });
-
   it("should render a <main /> element", () => {
     const element = wrapper.find("main");
 
@@ -79,7 +57,14 @@ describe("<AppShell />", () => {
     expect(element).toHaveLength(1);
   });
 
-  it("should render the child element element", () => {
+  it("should render the side bar content element", () => {
+    const element = wrapper.find("span");
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Test Side");
+  });
+
+  it("should render the child element", () => {
     const element = wrapper.find("p");
 
     expect(element).toHaveLength(1);
