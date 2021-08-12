@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import itemsReducer from "./items";
+import itemReducer from "./item";
+import categoryReducer from "./category";
 
 export const store = configureStore({
   reducer: {
-    items: itemsReducer,
+    category: categoryReducer,
+    item: itemReducer,
   },
 });

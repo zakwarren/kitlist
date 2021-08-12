@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = [];
 
-const itemsSlice = createSlice({
-  name: "items",
+const itemSlice = createSlice({
+  name: "item",
   initialState,
   reducers: {
     clearItems: () => initialState,
@@ -11,6 +11,6 @@ const itemsSlice = createSlice({
   },
 });
 
-export default itemsSlice.reducer;
+export default itemSlice.reducer;
 
-export const { clearItems, addItem } = itemsSlice.actions;
+export const { clearItems, addItem } = itemSlice.actions;
