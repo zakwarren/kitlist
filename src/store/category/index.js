@@ -14,3 +14,5 @@ const categorySlice = createSlice({
 export default categorySlice.reducer;
 
 export const { clearCategories, addCategory } = categorySlice.actions;
+
+export { selectCategories } from "./selectors";
