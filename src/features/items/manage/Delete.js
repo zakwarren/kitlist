@@ -12,39 +12,39 @@ import {
 } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 
-import { deleteCategory } from "store/category";
+import { deleteItem } from "store/item";
 
 const useStyles = makeStyles({
   close: { position: "absolute", top: 0, right: 0 },
 });
 
-export const DeleteCategory = (props) => {
-  const { isOpen, onClose, category } = props;
+export const DeleteItem = (props) => {
+  const { isOpen, onClose, item } = props;
   const dispatch = useDispatch();
   const css = useStyles();
 
-  const deleteCat = useCallback(() => {
-    dispatch(deleteCategory(category));
+  const deleteItm = useCallback(() => {
+    dispatch(deleteItem(item));
     onClose();
-  }, [dispatch, onClose, category]);
+  }, [dispatch, onClose, item]);
 
   return (
     <Dialog
       open={isOpen}
       onClose={onClose}
-      aria-labelledby="Delete category dialog"
+      aria-labelledby="Delete item dialog"
       fullWidth
       maxWidth="sm"
     >
       <IconButton className={css.close} onClick={onClose}>
         <CloseIcon />
       </IconButton>
-      <DialogTitle>Delete Category</DialogTitle>
+      <DialogTitle>Delete Item</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete {category?.name}?
+        Are you sure you want to delete {item?.name}?
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" color="primary" onClick={deleteCat}>
+        <Button variant="contained" color="primary" onClick={deleteItm}>
           Delete
         </Button>
         <Button onClick={onClose}>Cancel</Button>
@@ -53,8 +53,8 @@ export const DeleteCategory = (props) => {
   );
 };
 
-DeleteCategory.propTypes = {
+DeleteItem.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  category: PropTypes.exact({ name: PropTypes.string.isRequired }),
+  item: PropTypes.exact({ name: PropTypes.string.isRequired }),
 };
