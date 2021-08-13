@@ -35,7 +35,7 @@ const itemSlice = createSlice({
     },
   },
   extraReducers: {
-    [editCategory.type]: (state, action) => {
+    [editCategory.fulfilled]: (state, action) => {
       const oldCat = action.payload.oldCategory.name;
       const newCat = action.payload.newCategory.name;
       const items = state.items.map((i) => {
@@ -46,7 +46,7 @@ const itemSlice = createSlice({
       });
       state.items = items;
     },
-    [deleteCategory.type]: (state, action) => {
+    [deleteCategory.fulfilled]: (state, action) => {
       const catName = action.payload.name;
       const withCat = state.items.filter((i) => i.category === catName);
       const withCatNames = withCat.map((i) => i.name);

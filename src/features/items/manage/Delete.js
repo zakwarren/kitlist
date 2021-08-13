@@ -56,5 +56,8 @@ export const DeleteItem = (props) => {
 DeleteItem.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  item: PropTypes.exact({ name: PropTypes.string.isRequired }),
+  item: PropTypes.exact({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired,
+  }),
 };

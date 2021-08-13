@@ -1,5 +1,6 @@
 import reducer, {
   clearCategories,
+  getCategories,
   addCategory,
   editCategory,
   deleteCategory,
@@ -20,14 +21,28 @@ describe("categories slice", () => {
       categories: [{ name: "test 1" }, { name: "test 2" }],
       tickedCategories: ["test 1"],
     };
-    const newState = reducer(state, { type: clearCategories.type });
+    const newState = reducer(state, { type: clearCategories.fulfilled });
 
     expect(newState).toEqual(initialState);
   });
 
+  it("should get the categories", () => {
+    const payload = [{ name: "test 1" }, { name: "test 2" }];
+    const newState = reducer(initialState, {
+      type: getCategories.fulfilled,
+      payload,
+    });
+
+    expect(newState).not.toEqual(initialState);
+    expect(newState.categories).toHaveLength(2);
+  });
+
   it("should add a category", () => {
     const payload = { name: "test 1" };
-    const newState = reducer(initialState, { type: addCategory.type, payload });
+    const newState = reducer(initialState, {
+      type: addCategory.fulfilled,
+      payload,
+    });
 
     expect(newState).not.toEqual(initialState);
     expect(newState.categories).toHaveLength(1);
@@ -42,7 +57,7 @@ describe("categories slice", () => {
       oldCategory: { name: "test 1" },
       newCategory: { name: "new category" },
     };
-    const newState = reducer(state, { type: editCategory.type, payload });
+    const newState = reducer(state, { type: editCategory.fulfilled, payload });
 
     expect(newState).not.toEqual(state);
     expect(newState.categories).toHaveLength(2);
@@ -55,7 +70,10 @@ describe("categories slice", () => {
       tickedCategories: [],
     };
     const payload = { name: "test 1" };
-    const newState = reducer(state, { type: deleteCategory.type, payload });
+    const newState = reducer(state, {
+      type: deleteCategory.fulfilled,
+      payload,
+    });
 
     expect(newState).not.toEqual(state);
     expect(newState.categories).toHaveLength(1);

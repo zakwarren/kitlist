@@ -100,7 +100,7 @@ describe("items slice", () => {
       oldCategory: { name: "cat 1" },
       newCategory: { name: "catty" },
     };
-    const newState = reducer(state, { type: editCategory.type, payload });
+    const newState = reducer(state, { type: editCategory.fulfilled, payload });
 
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(3);
@@ -117,7 +117,7 @@ describe("items slice", () => {
       tickedItems: [],
     };
     const payload = { name: "cat 1" };
-    const newState = reducer(state, { type: deleteCategory.type, payload });
+    const newState = reducer(state, { type: deleteCategory.fulfilled, payload });
 
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(1);

@@ -57,5 +57,8 @@ export const DeleteCategory = (props) => {
 DeleteCategory.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  category: PropTypes.exact({ name: PropTypes.string.isRequired }),
+  category: PropTypes.exact({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired,
+  }),
 };
