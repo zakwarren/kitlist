@@ -1,11 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { List, ListSubheader, ListItem, ListItemText } from "@material-ui/core";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  List,
+  ListSubheader,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Checkbox,
+} from "@material-ui/core";
 
-import { selectCategories } from "store/category";
+import {
+  selectCategories,
+  selectTickedCategories,
+  toggleCategory,
+} from "store/category";
 
 export const Categories = () => {
   const categories = useSelector(selectCategories);
+  const ticked = useSelector(selectTickedCategories);
+  const dispatch = useDispatch();
 
   return (
     <List
@@ -14,6 +27,16 @@ export const Categories = () => {
     >
       {categories.map((cat, i) => (
         <ListItem key={i}>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              checked={ticked.includes(cat.name)}
+              tabIndex={-1}
+              disableRipple
+              inputProps={{ "aria-labelledby": `checkbox-${cat.name}` }}
+              onClick={() => dispatch(toggleCategory(cat))}
+            />
+          </ListItemIcon>
           <ListItemText primary={cat.name} />
         </ListItem>
       ))}
