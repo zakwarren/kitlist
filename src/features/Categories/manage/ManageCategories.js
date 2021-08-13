@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   Typography,
+  ButtonGroup,
   Button,
   Divider,
   List,
@@ -14,6 +16,7 @@ import {
   AddCircleOutline as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
+  List as ListIcon,
 } from "@material-ui/icons";
 
 import { selectCategories } from "store/category";
@@ -27,6 +30,7 @@ export const ManageCategories = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const { push } = useHistory();
 
   const onEditClose = useCallback(() => {
     setIsEditOpen(false);
@@ -59,13 +63,18 @@ export const ManageCategories = () => {
       <Typography variant="h5" gutterBottom>
         Manage Categories
       </Typography>
-      <Button startIcon={<AddIcon />} onClick={() => setIsEditOpen(true)}>
-        Add New Category
-      </Button>
+      <ButtonGroup variant="text">
+        <Button startIcon={<AddIcon />} onClick={() => setIsEditOpen(true)}>
+          Add New Category
+        </Button>
+        <Button startIcon={<ListIcon />} onClick={() => push("/items")}>
+          Manage Items
+        </Button>
+      </ButtonGroup>
       <Divider />
       <List className={coreCss.list}>
         {categories.map((cat, i) => (
-          <ListItem key={i}>
+          <ListItem key={i} divider>
             <ListItemText primary={cat.name} />
             <ListItemSecondaryAction>
               <IconButton

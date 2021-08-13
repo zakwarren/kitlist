@@ -11,18 +11,17 @@ import {
   ListItemText,
 } from "@material-ui/core";
 
-import { ManageCategories } from "./ManageCategories";
-import { AddEditCategory } from "./AddEdit";
+import { Items } from "./Items";
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useHistory: () => ({ push: jest.fn }),
 }));
 
-describe("<ManageCategories />", () => {
+describe("<Items />", () => {
   let wrapper;
   const state = {
-    category: { categories: [{ name: "Test" }], tickedCategories: [] },
+    item: { items: [{ name: "Test" }], tickedItems: [] },
   };
 
   beforeAll(() => {
@@ -36,14 +35,14 @@ describe("<ManageCategories />", () => {
   beforeEach(() => {
     jest.spyOn(redux, "useSelector").mockImplementation((cb) => cb(state));
 
-    wrapper = shallow(<ManageCategories />);
+    wrapper = shallow(<Items />);
   });
 
   it("should render a <Typography /> component", () => {
     const element = wrapper.find(Typography);
 
     expect(element).toHaveLength(1);
-    expect(element.text()).toEqual("Manage Categories");
+    expect(element.text()).toEqual("Manage Items");
   });
 
   it("should render a <ButtonGroup /> component", () => {
@@ -56,8 +55,8 @@ describe("<ManageCategories />", () => {
     const elements = wrapper.find(Button);
 
     expect(elements).toHaveLength(2);
-    expect(elements.get(0).props.children).toEqual("Add New Category");
-    expect(elements.get(1).props.children).toEqual("Manage Items");
+    expect(elements.get(0).props.children).toEqual("Add New Item");
+    expect(elements.get(1).props.children).toEqual("Manage Categories");
   });
 
   it("should render a <Divider /> component", () => {
@@ -78,11 +77,5 @@ describe("<ManageCategories />", () => {
 
     expect(element).toHaveLength(1);
     expect(itemTxt).toHaveLength(1);
-  });
-
-  it("should render a <AddEditCategory /> component", () => {
-    const element = wrapper.find(AddEditCategory);
-
-    expect(element).toHaveLength(1);
   });
 });

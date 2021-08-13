@@ -1,7 +1,13 @@
-import reducer, { clearItems, addItem } from ".";
+import reducer, {
+  clearItems,
+  addItem,
+  editItem,
+  deleteItem,
+  toggleItem,
+} from ".";
 
-describe("item slice", () => {
-  const initialState = [];
+describe("items slice", () => {
+  const initialState = { items: [], tickedItems: [] };
 
   it("should return the initital state when no action type provided", () => {
     const newState = reducer(undefined, {});
@@ -10,17 +16,73 @@ describe("item slice", () => {
   });
 
   it("should reset to initial state", () => {
-    const state = ["test 1", "test 2"];
+    const state = {
+      items: [{ name: "test 1" }, { name: "test 2" }],
+      tickedItems: ["test 1"],
+    };
     const newState = reducer(state, { type: clearItems.type });
 
     expect(newState).toEqual(initialState);
   });
 
   it("should add an item", () => {
-    const payload = "test 1";
+    const payload = { name: "test 1" };
     const newState = reducer(initialState, { type: addItem.type, payload });
 
     expect(newState).not.toEqual(initialState);
-    expect(newState).toHaveLength(1);
+    expect(newState.items).toHaveLength(1);
+  });
+
+  it("should edit an item", () => {
+    const state = {
+      items: [{ name: "test 1" }, { name: "test 2" }],
+      tickedItems: [],
+    };
+    const payload = {
+      oldItem: { name: "test 1" },
+      newItem: { name: "new item" },
+    };
+    const newState = reducer(state, { type: editItem.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(2);
+    expect(newState.items[0].name).toEqual("new item");
+  });
+
+  it("should delete an item", () => {
+    const state = {
+      items: [{ name: "test 1" }, { name: "test 2" }],
+      tickedItems: [],
+    };
+    const payload = { name: "test 1" };
+    const newState = reducer(state, { type: deleteItem.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(1);
+    expect(newState.items[0].name).toEqual("test 2");
+  });
+
+  it("should add a ticked item", () => {
+    const payload = { name: "test 1" };
+    const newState = reducer(initialState, {
+      type: toggleItem.type,
+      payload,
+    });
+
+    expect(newState).not.toEqual(initialState);
+    expect(newState.tickedItems).toHaveLength(1);
+    expect(newState.tickedItems[0]).toEqual(payload.name);
+  });
+
+  it("should remove a ticked item", () => {
+    const payload = { name: "test 1" };
+    const state = {
+      items: [],
+      tickedItems: ["test 1"],
+    };
+    const newState = reducer(state, { type: toggleItem.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.tickedItems).toHaveLength(0);
   });
 });
