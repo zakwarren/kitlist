@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import * as redux from "react-redux";
 import {
+  Typography,
   List,
   ListItem,
   ListItemText,
@@ -16,6 +17,7 @@ import { KitList } from "./KitList";
 describe("<KitList />", () => {
   let wrapper;
   const state = {
+    category: { tickedCategories: ["test 1"] },
     item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
   };
 
@@ -33,7 +35,22 @@ describe("<KitList />", () => {
     wrapper = shallow(<KitList />);
   });
 
-  it("should render an <List /> component", () => {
+  it("should render a <Typography /> component if no ticked categories", () => {
+    const untickedState = {
+      category: { tickedCategories: [] },
+      item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
+    };
+    jest
+      .spyOn(redux, "useSelector")
+      .mockImplementation((cb) => cb(untickedState));
+    const wrapper = shallow(<KitList />);
+    const element = wrapper.find(Typography);
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Select a category to begin");
+  });
+
+  it("should render a <List /> component", () => {
     const element = wrapper.find(List);
 
     expect(element).toHaveLength(1);
