@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  makeStyles,
   Paper,
   List,
   ListItem,
@@ -12,14 +11,12 @@ import {
 } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
+import { useCoreStyles } from "theme";
+
 const items = [{ item: "Test 1" }, { item: "Test 2" }, { item: "Test 3" }];
 
-const useStyles = makeStyles(() => ({
-  list: { width: "clamp(360px, 60%, 100%)" },
-}));
-
 export const KitList = () => {
-  const css = useStyles();
+  const coreCss = useCoreStyles();
   const [checked, setChecked] = useState([]);
 
   const handleToggle = (value) => () => {
@@ -36,7 +33,7 @@ export const KitList = () => {
   };
 
   return (
-    <List component={Paper} className={css.list}>
+    <List component={Paper} className={coreCss.list}>
       {items.map((item, i) => (
         <ListItem key={i} divider onClick={handleToggle(item)}>
           <ListItemIcon>

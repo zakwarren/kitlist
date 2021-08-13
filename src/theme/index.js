@@ -18,3 +18,5 @@ export const useGetTheme = () => {
 };
 
 export default useGetTheme;
+
+export { useCoreStyles } from "./useCoreStyles";
