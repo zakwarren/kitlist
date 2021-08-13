@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 
-import { selectCategories, addCategory } from "store/category";
+import { selectCategories, addCategory, editCategory } from "store/category";
 
 const useStyles = makeStyles((theme) => ({
   form: { padding: theme.spacing(4), display: "flex", flexDirection: "column" },
@@ -21,26 +21,39 @@ const useStyles = makeStyles((theme) => ({
   submit: { margin: "auto", marginTop: theme.spacing(2), width: "10rem" },
 }));
 
-export const AddCategory = (props) => {
-  const { isOpen, onClose } = props;
+export const AddEditCategory = (props) => {
+  const { isOpen, onClose, isEdit, category } = props;
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const css = useStyles();
 
-  const initialValues = { name: "" };
+  const initialValues = { name: category?.name || "" };
   const validationSchema = yup.object({
     name: yup
       .string()
       .required("Enter a category name")
-      .test(
-        "unique",
-        "Category already exists",
-        (value) =>
-          categories.filter((c) => c.name.toLowerCase() === value.toLowerCase())
-            .length === 0
-      ),
+      .test("unique", "Category already exists", (value) => {
+        let existing = [];
+        if (isEdit) {
+          existing = categories.filter(
+            (c) =>
+              c.name.toLowerCase() === value.toLowerCase() &&
+              c.name.toLowerCase() !== category.name.toLowerCase()
+          );
+        } else {
+          existing = categories.filter(
+            (c) => c.name.toLowerCase() === value.toLowerCase()
+          );
+        }
+        return existing.length === 0;
+      }),
   });
   const onSubmit = (values, { resetForm }) => {
+    if (isEdit) {
+      dispatch(editCategory({ oldCategory: category, newCategory: values }));
+      onClose();
+      return;
+    }
     dispatch(addCategory(values));
     resetForm();
   };
@@ -56,7 +69,9 @@ export const AddCategory = (props) => {
       <IconButton className={css.close} onClick={onClose}>
         <CloseIcon />
       </IconButton>
-      <DialogTitle>Add New Category</DialogTitle>
+      <DialogTitle>
+        {isEdit ? `Edit ${category.name}` : "Add New"} Category
+      </DialogTitle>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -97,7 +112,16 @@ export const AddCategory = (props) => {
   );
 };
 
-AddCategory.propTypes = {
+AddEditCategory.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool,
+  category: (props, propName, componentName) => {
+    if (
+      props["isEdit"] === true &&
+      (props[propName] === undefined || typeof props[propName] != "object")
+    ) {
+      return new Error("category is required when isEdit is true");
+    }
+  },
 };

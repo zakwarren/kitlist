@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import { ManageCategories } from "./ManageCategories";
-import { AddCategory } from "./Add";
+import { AddEditCategory } from "./AddEdit";
 
 describe("<ManageCategories />", () => {
   let wrapper;
@@ -67,8 +67,8 @@ describe("<ManageCategories />", () => {
     expect(itemTxt).toHaveLength(1);
   });
 
-  it("should render a <AddCategory /> component", () => {
-    const element = wrapper.find(AddCategory);
+  it("should render a <AddEditCategory /> component", () => {
+    const element = wrapper.find(AddEditCategory);
 
     expect(element).toHaveLength(1);
   });

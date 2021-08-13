@@ -1,4 +1,9 @@
-import reducer, { clearCategories, addCategory, toggleCategory } from ".";
+import reducer, {
+  clearCategories,
+  addCategory,
+  editCategory,
+  toggleCategory,
+} from ".";
 
 describe("categories slice", () => {
   const initialState = { categories: [], tickedCategories: [] };
@@ -25,6 +30,22 @@ describe("categories slice", () => {
 
     expect(newState).not.toEqual(initialState);
     expect(newState.categories).toHaveLength(1);
+  });
+
+  it("should edit a category", () => {
+    const state = {
+      categories: [{ name: "test 1" }, { name: "test 2" }],
+      tickedCategories: [],
+    };
+    const payload = {
+      oldCategory: { name: "test 1" },
+      newCategory: { name: "new category" },
+    };
+    const newState = reducer(state, { type: editCategory.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.categories).toHaveLength(2);
+    expect(newState.categories[0].name).toEqual("new category");
   });
 
   it("should add a ticked category", () => {
