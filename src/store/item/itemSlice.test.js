@@ -1,15 +1,18 @@
 import reducer, {
   clearItems,
+  clearTicked,
+  clearRemoved,
   getItems,
   addItem,
   editItem,
   deleteItem,
   toggleItem,
+  removeItem,
 } from ".";
-import { editCategory, deleteCategory } from "../category";
+import { editCategory, deleteCategory, toggleCategory } from "../category";
 
 describe("items slice", () => {
-  const initialState = { items: [], tickedItems: [] };
+  const initialState = { items: [], tickedItems: [], removedItems: [] };
 
   it("should return the initital state when no action type provided", () => {
     const newState = reducer(undefined, {});
@@ -21,10 +24,39 @@ describe("items slice", () => {
     const state = {
       items: [{ name: "test 1" }, { name: "test 2" }],
       tickedItems: ["test 1"],
+      removedItems: ["test 2"],
     };
     const newState = reducer(state, { type: clearItems.fulfilled });
 
     expect(newState).toEqual(initialState);
+  });
+
+  it("should clear the ticked items", () => {
+    const state = {
+      items: [{ name: "test 1" }, { name: "test 2" }],
+      tickedItems: ["test 1"],
+      removedItems: ["test 2"],
+    };
+    const newState = reducer(state, { type: clearTicked.type });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(state.items.length);
+    expect(newState.removedItems).toHaveLength(state.removedItems.length);
+    expect(newState.tickedItems).toHaveLength(0);
+  });
+
+  it("should clear the removed items", () => {
+    const state = {
+      items: [{ name: "test 1" }, { name: "test 2" }],
+      tickedItems: ["test 1"],
+      removedItems: ["test 2"],
+    };
+    const newState = reducer(state, { type: clearRemoved.type });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(state.items.length);
+    expect(newState.tickedItems).toHaveLength(state.tickedItems.length);
+    expect(newState.removedItems).toHaveLength(0);
   });
 
   it("should get the items", () => {
@@ -56,6 +88,7 @@ describe("items slice", () => {
     const state = {
       items: [{ name: "test 1" }, { name: "test 2" }],
       tickedItems: [],
+      removedItems: [],
     };
     const payload = {
       oldItem: { name: "test 1" },
@@ -72,6 +105,7 @@ describe("items slice", () => {
     const state = {
       items: [{ name: "test 1" }, { name: "test 2" }],
       tickedItems: [],
+      removedItems: [],
     };
     const payload = { name: "test 1" };
     const newState = reducer(state, { type: deleteItem.fulfilled, payload });
@@ -105,6 +139,30 @@ describe("items slice", () => {
     expect(newState.tickedItems).toHaveLength(0);
   });
 
+  it("should add a removed item", () => {
+    const payload = { name: "test 1" };
+    const newState = reducer(initialState, {
+      type: removeItem.type,
+      payload,
+    });
+
+    expect(newState).not.toEqual(initialState);
+    expect(newState.removedItems).toHaveLength(1);
+    expect(newState.removedItems[0]).toEqual(payload.name);
+  });
+
+  it("should remove a removed item", () => {
+    const payload = { name: "test 1" };
+    const state = {
+      items: [],
+      removedItems: ["test 1"],
+    };
+    const newState = reducer(state, { type: removeItem.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.removedItems).toHaveLength(0);
+  });
+
   it("should update the relevant items when category edited", () => {
     const state = {
       items: [
@@ -113,6 +171,7 @@ describe("items slice", () => {
         { name: "test 3", category: "cat 2" },
       ],
       tickedItems: [],
+      removedItems: [],
     };
     const payload = {
       oldCategory: { name: "cat 1" },
@@ -133,6 +192,7 @@ describe("items slice", () => {
         { name: "test 3", category: "cat 2" },
       ],
       tickedItems: [],
+      removedItems: [],
     };
     const payload = { name: "cat 1" };
     const newState = reducer(state, {
@@ -143,5 +203,25 @@ describe("items slice", () => {
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(1);
     expect(newState.items[0].name).toEqual("test 3");
+  });
+
+  it("should clear ticked and removed items on category toggle", () => {
+    const state = {
+      items: [
+        { name: "test 1", category: "cat 1" },
+        { name: "test 2", category: "cat 1" },
+        { name: "test 3", category: "cat 2" },
+      ],
+      tickedItems: ["test 1"],
+      removedItems: ["test 2", "test 3"],
+    };
+    const payload = { name: "cat 1" };
+    const newState = reducer(state, { type: toggleCategory.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(state.items.length);
+    expect(newState.tickedItems).toHaveLength(0);
+    expect(newState.removedItems).toHaveLength(1);
+    expect(newState.removedItems[0]).toEqual("test 3");
   });
 });

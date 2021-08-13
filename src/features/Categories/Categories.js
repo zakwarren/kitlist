@@ -36,7 +36,11 @@ export const Categories = () => {
       subheader={
         <ListSubheader className={css.header}>
           Categories{" "}
-          <IconButton size="small" onClick={() => push("/categories")}>
+          <IconButton
+            size="small"
+            title="Edit Categories"
+            onClick={() => push("/categories")}
+          >
             <EditIcon />
           </IconButton>
         </ListSubheader>

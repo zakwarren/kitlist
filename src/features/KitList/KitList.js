@@ -12,10 +12,22 @@ import {
   Checkbox,
   IconButton,
 } from "@material-ui/core";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import {
+  Visibility as ShowIcon,
+  VisibilityOff as HideIcon,
+  RadioButtonUnchecked as UncheckIcon,
+} from "@material-ui/icons";
 
 import { selectTickedCategories } from "store/category";
-import { selectItems, selectTickedItems, toggleItem } from "store/item";
+import {
+  selectItems,
+  selectTickedItems,
+  selectRemovedItems,
+  toggleItem,
+  removeItem,
+  clearTicked,
+  clearRemoved,
+} from "store/item";
 import { useCoreStyles } from "theme";
 
 const useStyles = makeStyles({
@@ -25,6 +37,7 @@ const useStyles = makeStyles({
 export const KitList = () => {
   const items = useSelector(selectItems);
   const tickedItems = useSelector(selectTickedItems);
+  const removedItems = useSelector(selectRemovedItems);
   const tickedCategories = useSelector(selectTickedCategories);
   const dispatch = useDispatch();
   const coreCss = useCoreStyles();
@@ -34,9 +47,17 @@ export const KitList = () => {
     (value) => () => dispatch(toggleItem(value)),
     [dispatch]
   );
+  const handleRemove = useCallback(
+    (value) => () => dispatch(removeItem(value)),
+    [dispatch]
+  );
 
-  const itemsToDisplay = items.filter((i) =>
+  const categoryItems = items.filter((i) =>
     tickedCategories.includes(i.category)
+  );
+
+  const itemsToDisplay = categoryItems.filter(
+    (i) => !removedItems.includes(i.name)
   );
 
   if (itemsToDisplay.length === 0) {
@@ -48,32 +69,50 @@ export const KitList = () => {
   }
 
   return (
-    <List component={Paper} className={coreCss.list}>
-      {itemsToDisplay.map((item, i) => (
-        <ListItem
-          key={i}
-          divider
-          onClick={handleToggle(item)}
-          selected={tickedItems.includes(item.name)}
-          classes={{ selected: css.ticked }}
-        >
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={tickedItems.includes(item.name)}
-              tabIndex={-1}
-              disableRipple
-              inputProps={{ "aria-labelledby": `checkbox-${item.item}` }}
-            />
-          </ListItemIcon>
-          <ListItemText primary={item.name} secondary={item.category} />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <Typography variant="h5" gutterBottom>
+        Check items off as you pack
+      </Typography>
+      <div>
+        <IconButton title="Uncheck All" onClick={() => dispatch(clearTicked())}>
+          <UncheckIcon />
+        </IconButton>
+        <IconButton title="Show All" onClick={() => dispatch(clearRemoved())}>
+          <ShowIcon />
+        </IconButton>
+      </div>
+      <List component={Paper} className={coreCss.list}>
+        {itemsToDisplay.map((item, i) => (
+          <ListItem
+            key={i}
+            divider
+            onClick={handleToggle(item)}
+            selected={tickedItems.includes(item.name)}
+            classes={{ selected: css.ticked }}
+          >
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={tickedItems.includes(item.name)}
+                tabIndex={-1}
+                disableRipple
+                inputProps={{ "aria-labelledby": `checkbox-${item.item}` }}
+              />
+            </ListItemIcon>
+            <ListItemText primary={item.name} secondary={item.category} />
+            <ListItemSecondaryAction>
+              <IconButton
+                title={`Hide ${item.name}`}
+                edge="end"
+                aria-label="hide"
+                onClick={handleRemove(item)}
+              >
+                <HideIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };

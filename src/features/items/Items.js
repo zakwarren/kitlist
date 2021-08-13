@@ -77,12 +77,18 @@ export const Items = () => {
           <ListItem key={i} divider>
             <ListItemText primary={item.name} secondary={item.category} />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="edit" onClick={editItem(item)}>
+              <IconButton
+                edge="end"
+                aria-label={`edit ${item.name}`}
+                title={`Edit ${item.name}`}
+                onClick={editItem(item)}
+              >
                 <EditIcon />
               </IconButton>
               <IconButton
                 edge="end"
-                aria-label="delete"
+                aria-label={`delete ${item.name}`}
+                title={`Delete ${item.name}`}
                 onClick={deleteItem(item)}
               >
                 <DeleteIcon />

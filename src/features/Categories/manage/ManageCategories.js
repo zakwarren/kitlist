@@ -79,14 +79,16 @@ export const ManageCategories = () => {
             <ListItemSecondaryAction>
               <IconButton
                 edge="end"
-                aria-label="edit"
+                aria-label={`edit ${cat.name}`}
+                title={`Edit ${cat.name}`}
                 onClick={editCategory(cat)}
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 edge="end"
-                aria-label="delete"
+                aria-label={`delete ${cat.name}`}
+                title={`Delete ${cat.name}`}
                 onClick={deleteCategory(cat)}
               >
                 <DeleteIcon />

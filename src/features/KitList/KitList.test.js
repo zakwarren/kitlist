@@ -18,7 +18,11 @@ describe("<KitList />", () => {
   let wrapper;
   const state = {
     category: { tickedCategories: ["test 1"] },
-    item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
+    item: {
+      items: [{ name: "Test", category: "test 1" }],
+      tickedItems: [],
+      removedItems: [],
+    },
   };
 
   beforeAll(() => {
@@ -50,6 +54,26 @@ describe("<KitList />", () => {
     expect(element.text()).toEqual("Select a category to begin");
   });
 
+  it("should render a <Typography /> component", () => {
+    const element = wrapper.find(Typography);
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Check items off as you pack");
+  });
+
+  it("should render multiple <Typography /> component", () => {
+    const element = wrapper.find(Typography);
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Check items off as you pack");
+  });
+
+  it("should render multiple <IconButton /> components", () => {
+    const element = wrapper.find(IconButton);
+
+    expect(element).toHaveLength(3);
+  });
+
   it("should render a <List /> component", () => {
     const element = wrapper.find(List);
 
@@ -62,13 +86,11 @@ describe("<KitList />", () => {
     const itemIcn = wrapper.find(ListItemIcon);
     const chkBox = wrapper.find(Checkbox);
     const item2Act = wrapper.find(ListItemSecondaryAction);
-    const iconBtn = wrapper.find(IconButton);
 
     expect(element).toHaveLength(1);
     expect(itemTxt).toHaveLength(1);
     expect(itemIcn).toHaveLength(1);
     expect(chkBox).toHaveLength(1);
     expect(item2Act).toHaveLength(1);
-    expect(iconBtn).toHaveLength(1);
   });
 });

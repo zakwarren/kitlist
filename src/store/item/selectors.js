@@ -8,3 +8,8 @@ export const selectTickedItems = createSelector(
   getItem,
   (item) => item.tickedItems
 );
+
+export const selectRemovedItems = createSelector(
+  getItem,
+  (item) => item.removedItems
+);
