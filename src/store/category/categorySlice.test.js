@@ -1,5 +1,6 @@
 import reducer, {
   clearCategories,
+  clearSelected,
   getCategories,
   addCategory,
   editCategory,
@@ -24,6 +25,18 @@ describe("categories slice", () => {
     const newState = reducer(state, { type: clearCategories.fulfilled });
 
     expect(newState).toEqual(initialState);
+  });
+
+  it("should clear the ticked categories", () => {
+    const state = {
+      categories: [{ name: "test 1" }, { name: "test 2" }],
+      tickedCategories: ["test 1"],
+    };
+    const newState = reducer(state, { type: clearSelected.type });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.categories).toHaveLength(state.categories.length);
+    expect(newState.tickedCategories).toHaveLength(0);
   });
 
   it("should get the categories", () => {

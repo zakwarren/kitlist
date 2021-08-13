@@ -14,6 +14,7 @@ const categorySlice = createSlice({
   name: "category",
   initialState,
   reducers: {
+    clearSelected: (state) => void (state.tickedCategories = []),
     toggleCategory: (state, action) => {
       const cat = action.payload;
       const existing = state.tickedCategories.find((c) => c === cat.name);
@@ -51,7 +52,7 @@ const categorySlice = createSlice({
 
 export default categorySlice.reducer;
 
-export const { toggleCategory } = categorySlice.actions;
+export const { clearSelected, toggleCategory } = categorySlice.actions;
 
 export {
   clearCategories,
