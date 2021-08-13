@@ -5,6 +5,7 @@ import reducer, {
   deleteItem,
   toggleItem,
 } from ".";
+import { editCategory, deleteCategory } from "../category";
 
 describe("items slice", () => {
   const initialState = { items: [], tickedItems: [] };
@@ -84,5 +85,42 @@ describe("items slice", () => {
 
     expect(newState).not.toEqual(state);
     expect(newState.tickedItems).toHaveLength(0);
+  });
+
+  it("should update the relevant items when category edited", () => {
+    const state = {
+      items: [
+        { name: "test 1", category: "cat 1" },
+        { name: "test 2", category: "cat 1" },
+        { name: "test 3", category: "cat 2" },
+      ],
+      tickedItems: [],
+    };
+    const payload = {
+      oldCategory: { name: "cat 1" },
+      newCategory: { name: "catty" },
+    };
+    const newState = reducer(state, { type: editCategory.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(3);
+    expect(newState.items[0].category).toEqual("catty");
+  });
+
+  it("should remove the relevant items when category deleted", () => {
+    const state = {
+      items: [
+        { name: "test 1", category: "cat 1" },
+        { name: "test 2", category: "cat 1" },
+        { name: "test 3", category: "cat 2" },
+      ],
+      tickedItems: [],
+    };
+    const payload = { name: "cat 1" };
+    const newState = reducer(state, { type: deleteCategory.type, payload });
+
+    expect(newState).not.toEqual(state);
+    expect(newState.items).toHaveLength(1);
+    expect(newState.items[0].name).toEqual("test 3");
   });
 });

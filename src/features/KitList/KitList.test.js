@@ -47,11 +47,11 @@ describe("<KitList />", () => {
     const item2Act = wrapper.find(ListItemSecondaryAction);
     const iconBtn = wrapper.find(IconButton);
 
-    expect(element).toHaveLength(3);
-    expect(itemTxt).toHaveLength(3);
-    expect(itemIcn).toHaveLength(3);
-    expect(chkBox).toHaveLength(3);
-    expect(item2Act).toHaveLength(3);
-    expect(iconBtn).toHaveLength(3);
+    expect(element).toHaveLength(1);
+    expect(itemTxt).toHaveLength(1);
+    expect(itemIcn).toHaveLength(1);
+    expect(chkBox).toHaveLength(1);
+    expect(item2Act).toHaveLength(1);
+    expect(iconBtn).toHaveLength(1);
   });
 });

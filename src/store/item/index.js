@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { editCategory, deleteCategory } from "../category";
+
 const initialState = { items: [], tickedItems: [] };
 
 const itemSlice = createSlice({
@@ -30,6 +32,27 @@ const itemSlice = createSlice({
         };
       }
       state.tickedItems.push(item.name);
+    },
+  },
+  extraReducers: {
+    [editCategory.type]: (state, action) => {
+      const oldCat = action.payload.oldCategory.name;
+      const newCat = action.payload.newCategory.name;
+      const items = state.items.map((i) => {
+        if (i.category === oldCat) {
+          return { ...i, category: newCat };
+        }
+        return i;
+      });
+      state.items = items;
+    },
+    [deleteCategory.type]: (state, action) => {
+      const catName = action.payload.name;
+      const withCat = state.items.filter((i) => i.category === catName);
+      const withCatNames = withCat.map((i) => i.name);
+      const ticked = state.tickedItems.filter((i) => !withCatNames.includes(i));
+      const filtered = state.items.filter((i) => i.category !== catName);
+      return { items: filtered, tickedItems: ticked };
     },
   },
 });

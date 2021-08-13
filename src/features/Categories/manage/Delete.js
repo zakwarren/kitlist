@@ -41,7 +41,8 @@ export const DeleteCategory = (props) => {
       </IconButton>
       <DialogTitle>Delete Category</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete {category?.name}?
+        Are you sure you want to delete {category?.name}? This will delete any
+        items under this category as well.
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary" onClick={deleteCat}>
