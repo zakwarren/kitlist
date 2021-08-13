@@ -1,9 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
 import * as redux from "react-redux";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
 
 import { ManageCategories } from "./ManageCategories";
+import { AddCategory } from "./Add";
 
 describe("<ManageCategories />", () => {
   let wrapper;
@@ -25,6 +33,26 @@ describe("<ManageCategories />", () => {
     wrapper = shallow(<ManageCategories />);
   });
 
+  it("should render a <Typography /> component", () => {
+    const element = wrapper.find(Typography);
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Manage Categories");
+  });
+
+  it("should render a <Button /> component", () => {
+    const element = wrapper.find(Button);
+
+    expect(element).toHaveLength(1);
+    expect(element.text()).toEqual("Add New Category");
+  });
+
+  it("should render a <Divider /> component", () => {
+    const element = wrapper.find(Divider);
+
+    expect(element).toHaveLength(1);
+  });
+
   it("should render a <List /> component", () => {
     const element = wrapper.find(List);
 
@@ -37,5 +65,11 @@ describe("<ManageCategories />", () => {
 
     expect(element).toHaveLength(1);
     expect(itemTxt).toHaveLength(1);
+  });
+
+  it("should render a <AddCategory /> component", () => {
+    const element = wrapper.find(AddCategory);
+
+    expect(element).toHaveLength(1);
   });
 });
