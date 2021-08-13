@@ -4,8 +4,17 @@ import { Divider, Drawer, Typography, IconButton } from "@material-ui/core";
 
 import { AppShell } from "./AppShell";
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: () => ({ push: jest.fn }),
+}));
+
 describe("<AppShell />", () => {
   let wrapper;
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   beforeEach(() => {
     wrapper = shallow(

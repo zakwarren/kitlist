@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import {
   makeStyles,
   Divider,
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
     },
   },
-  drawerTitle: { padding: theme.spacing(2) },
+  drawerTitle: { padding: theme.spacing(2), cursor: "pointer" },
   drawerPaper: { width: drawerWidth },
   content: {
     padding: theme.spacing(3),
@@ -36,6 +37,7 @@ export const AppShell = (props) => {
   const { sideBarContent, children } = props;
   const css = useStyles();
   const theme = useTheme();
+  const { push } = useHistory();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,7 +45,11 @@ export const AppShell = (props) => {
 
   const drawer = (
     <>
-      <Typography variant="h4" className={css.drawerTitle}>
+      <Typography
+        variant="h4"
+        className={css.drawerTitle}
+        onClick={() => push("/")}
+      >
         Kit List
       </Typography>
       <Divider />

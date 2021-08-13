@@ -1,16 +1,11 @@
 import React from "react";
 import { shallow } from "enzyme";
 import * as redux from "react-redux";
-import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 
-import { Categories } from "./Categories";
+import { ManageCategories } from "./ManageCategories";
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useHistory: () => ({ push: jest.fn }),
-}));
-
-describe("<Categories />", () => {
+describe("<ManageCategories />", () => {
   let wrapper;
   const state = {
     category: { categories: [{ name: "Test" }], tickedCategories: [] },
@@ -27,7 +22,7 @@ describe("<Categories />", () => {
   beforeEach(() => {
     jest.spyOn(redux, "useSelector").mockImplementation((cb) => cb(state));
 
-    wrapper = shallow(<Categories />);
+    wrapper = shallow(<ManageCategories />);
   });
 
   it("should render a <List /> component", () => {
@@ -39,10 +34,8 @@ describe("<Categories />", () => {
   it("should render a <ListItem /> element", () => {
     const element = wrapper.find(ListItem);
     const itemTxt = wrapper.find(ListItemText);
-    const itemIcon = wrapper.find(ListItemIcon);
 
     expect(element).toHaveLength(1);
     expect(itemTxt).toHaveLength(1);
-    expect(itemIcon).toHaveLength(1);
   });
 });
