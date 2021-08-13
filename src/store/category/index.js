@@ -15,6 +15,11 @@ const categorySlice = createSlice({
       );
       state.categories[existingIndex] = newCategory;
     },
+    deleteCategory: (state, action) => {
+      const cat = action.payload;
+      const filtered = state.categories.filter((c) => c.name !== cat.name);
+      state.categories = filtered;
+    },
     toggleCategory: (state, action) => {
       const cat = action.payload;
       const existing = state.tickedCategories.find((c) => c === cat.name);
@@ -33,7 +38,12 @@ const categorySlice = createSlice({
 
 export default categorySlice.reducer;
 
-export const { clearCategories, addCategory, editCategory, toggleCategory } =
-  categorySlice.actions;
+export const {
+  clearCategories,
+  addCategory,
+  editCategory,
+  deleteCategory,
+  toggleCategory,
+} = categorySlice.actions;
 
 export { selectCategories, selectTickedCategories } from "./selectors";

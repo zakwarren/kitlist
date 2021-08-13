@@ -1,21 +1,19 @@
 import React from "react";
 import { shallow } from "enzyme";
 import * as redux from "react-redux";
-import { Formik } from "formik";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
+  Button,
   IconButton,
 } from "@material-ui/core";
 
-import { AddEditCategory } from "./AddEdit";
+import { DeleteCategory } from "./Delete";
 
-describe("<AddEditCategory />", () => {
+describe("<DeleteCategory />", () => {
   let wrapper;
-  const state = {
-    category: { categories: [{ name: "Test" }], tickedCategories: [] },
-  };
   const props = {
     isOpen: true,
     onClose: jest.fn,
@@ -31,9 +29,7 @@ describe("<AddEditCategory />", () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(redux, "useSelector").mockImplementation((cb) => cb(state));
-
-    wrapper = shallow(<AddEditCategory {...props} />);
+    wrapper = shallow(<DeleteCategory {...props} />);
   });
 
   it("should render a <Dialog /> component", () => {
@@ -48,19 +44,11 @@ describe("<AddEditCategory />", () => {
     expect(element).toHaveLength(1);
   });
 
-  it("should render a <DialogTitle /> component with add title", () => {
+  it("should render a <DialogTitle /> component", () => {
     const element = wrapper.find(DialogTitle);
 
     expect(element).toHaveLength(1);
-    expect(element.text()).toEqual("Add New Category");
-  });
-
-  it("should render a <DialogTitle /> component with edit title", () => {
-    wrapper.setProps({ isEdit: true });
-    const element = wrapper.find(DialogTitle);
-
-    expect(element).toHaveLength(1);
-    expect(element.text()).toEqual("Edit Test Category");
+    expect(element.text()).toEqual("Delete Category");
   });
 
   it("should render a <DialogContent /> component", () => {
@@ -69,9 +57,17 @@ describe("<AddEditCategory />", () => {
     expect(element).toHaveLength(1);
   });
 
-  it("should render a <Formik /> component", () => {
-    const element = wrapper.find(Formik);
+  it("should render a <DialogActions /> component", () => {
+    const element = wrapper.find(DialogActions);
 
     expect(element).toHaveLength(1);
+  });
+
+  it("should render multiple <Button /> components", () => {
+    const elements = wrapper.find(Button);
+
+    expect(elements).toHaveLength(2);
+    expect(elements.get(0).props.children).toEqual("Delete");
+    expect(elements.get(1).props.children).toEqual("Cancel");
   });
 });

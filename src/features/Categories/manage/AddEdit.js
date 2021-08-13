@@ -9,17 +9,18 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  DialogContent,
+  DialogActions,
   IconButton,
 } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 
 import { selectCategories, addCategory, editCategory } from "store/category";
 
-const useStyles = makeStyles((theme) => ({
-  form: { padding: theme.spacing(4), display: "flex", flexDirection: "column" },
+const useStyles = makeStyles({
+  form: { display: "flex", flexDirection: "column" },
   close: { position: "absolute", top: 0, right: 0 },
-  submit: { margin: "auto", marginTop: theme.spacing(2), width: "10rem" },
-}));
+});
 
 export const AddEditCategory = (props) => {
   const { isOpen, onClose, isEdit, category } = props;
@@ -72,42 +73,45 @@ export const AddEditCategory = (props) => {
       <DialogTitle>
         {isEdit ? `Edit ${category.name}` : "Add New"} Category
       </DialogTitle>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting, handleChange }) => (
-          <Form className={css.form}>
-            <Field>
-              {({ form }) => (
-                <TextField
-                  id="name"
-                  name="name"
-                  label="Name"
-                  value={form.values.name}
-                  onChange={handleChange}
-                  error={Boolean(form.touched.name && form.errors.name)}
-                  helperText={
-                    form.touched.name &&
-                    form.errors.name &&
-                    String(form.errors.name)
-                  }
-                />
-              )}
-            </Field>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              variant="contained"
-              color="primary"
-              className={css.submit}
-            >
-              Submit
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      <DialogContent>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ isSubmitting, handleChange }) => (
+            <Form className={css.form}>
+              <Field>
+                {({ form }) => (
+                  <TextField
+                    id="name"
+                    name="name"
+                    label="Name"
+                    value={form.values.name}
+                    onChange={handleChange}
+                    error={Boolean(form.touched.name && form.errors.name)}
+                    helperText={
+                      form.touched.name &&
+                      form.errors.name &&
+                      String(form.errors.name)
+                    }
+                  />
+                )}
+              </Field>
+              <DialogActions>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  variant="contained"
+                  color="primary"
+                >
+                  Submit
+                </Button>
+              </DialogActions>
+            </Form>
+          )}
+        </Formik>
+      </DialogContent>
     </Dialog>
   );
 };
@@ -116,10 +120,10 @@ AddEditCategory.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   isEdit: PropTypes.bool,
-  category: (props, propName, componentName) => {
+  category: (props, propName) => {
     if (
       props["isEdit"] === true &&
-      (props[propName] === undefined || typeof props[propName] != "object")
+      (props[propName] === undefined || typeof props[propName] !== "object")
     ) {
       return new Error("category is required when isEdit is true");
     }

@@ -19,22 +19,37 @@ import {
 import { selectCategories } from "store/category";
 import { useCoreStyles } from "theme";
 import { AddEditCategory } from "./AddEdit";
+import { DeleteCategory } from "./Delete";
 
 export const ManageCategories = () => {
   const categories = useSelector(selectCategories);
   const coreCss = useCoreStyles();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const onClose = useCallback(() => {
-    setIsOpen(false);
+  const onEditClose = useCallback(() => {
+    setIsEditOpen(false);
     setSelected(null);
   }, []);
 
-  const selectCategory = useCallback(
+  const editCategory = useCallback(
     (category) => () => {
       setSelected(category);
-      setIsOpen(true);
+      setIsEditOpen(true);
+    },
+    []
+  );
+
+  const onDeleteClose = useCallback(() => {
+    setIsDeleteOpen(false);
+    setSelected(null);
+  }, []);
+
+  const deleteCategory = useCallback(
+    (category) => () => {
+      setSelected(category);
+      setIsDeleteOpen(true);
     },
     []
   );
@@ -44,7 +59,7 @@ export const ManageCategories = () => {
       <Typography variant="h5" gutterBottom>
         Manage Categories
       </Typography>
-      <Button startIcon={<AddIcon />} onClick={() => setIsOpen(true)}>
+      <Button startIcon={<AddIcon />} onClick={() => setIsEditOpen(true)}>
         Add New Category
       </Button>
       <Divider />
@@ -56,11 +71,15 @@ export const ManageCategories = () => {
               <IconButton
                 edge="end"
                 aria-label="edit"
-                onClick={selectCategory(cat)}
+                onClick={editCategory(cat)}
               >
                 <EditIcon />
               </IconButton>
-              <IconButton edge="end" aria-label="delete">
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={deleteCategory(cat)}
+              >
                 <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>
@@ -68,9 +87,14 @@ export const ManageCategories = () => {
         ))}
       </List>
       <AddEditCategory
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isEditOpen}
+        onClose={onEditClose}
         isEdit={Boolean(selected)}
+        category={selected}
+      />
+      <DeleteCategory
+        isOpen={isDeleteOpen}
+        onClose={onDeleteClose}
         category={selected}
       />
     </>
