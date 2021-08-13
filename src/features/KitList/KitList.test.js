@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 
 import { KitList } from "./KitList";
+import { DownloadButton } from "../download";
 
 describe("<KitList />", () => {
   let wrapper;
@@ -61,17 +62,16 @@ describe("<KitList />", () => {
     expect(element.text()).toEqual("Check items off as you pack");
   });
 
-  it("should render multiple <Typography /> component", () => {
-    const element = wrapper.find(Typography);
-
-    expect(element).toHaveLength(1);
-    expect(element.text()).toEqual("Check items off as you pack");
-  });
-
   it("should render multiple <IconButton /> components", () => {
     const element = wrapper.find(IconButton);
 
     expect(element).toHaveLength(3);
+  });
+
+  it("should render a <DownloadButton /> component", () => {
+    const element = wrapper.find(DownloadButton);
+
+    expect(element).toHaveLength(1);
   });
 
   it("should render a <List /> component", () => {

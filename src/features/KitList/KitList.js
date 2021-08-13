@@ -29,6 +29,7 @@ import {
   clearRemoved,
 } from "store/item";
 import { useCoreStyles } from "theme";
+import { DownloadButton } from "../download";
 
 const useStyles = makeStyles({
   ticked: { textDecoration: "line-through" },
@@ -74,12 +75,21 @@ export const KitList = () => {
         Check items off as you pack
       </Typography>
       <div>
-        <IconButton title="Uncheck All" onClick={() => dispatch(clearTicked())}>
+        <IconButton
+          title="Uncheck All"
+          aria-label="uncheck all button"
+          onClick={() => dispatch(clearTicked())}
+        >
           <UncheckIcon />
         </IconButton>
-        <IconButton title="Show All" onClick={() => dispatch(clearRemoved())}>
+        <IconButton
+          title="Show All"
+          aria-label="show all button"
+          onClick={() => dispatch(clearRemoved())}
+        >
           <ShowIcon />
         </IconButton>
+        <DownloadButton />
       </div>
       <List component={Paper} className={coreCss.list}>
         {itemsToDisplay.map((item, i) => (
