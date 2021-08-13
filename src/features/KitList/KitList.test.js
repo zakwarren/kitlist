@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import * as redux from "react-redux";
 import {
   List,
   ListItem,
@@ -14,8 +15,21 @@ import { KitList } from "./KitList";
 
 describe("<KitList />", () => {
   let wrapper;
+  const state = {
+    item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
+  };
+
+  beforeAll(() => {
+    jest.spyOn(redux, "useDispatch").mockReturnValue(jest.fn);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   beforeEach(() => {
+    jest.spyOn(redux, "useSelector").mockImplementation((cb) => cb(state));
+
     wrapper = shallow(<KitList />);
   });
 

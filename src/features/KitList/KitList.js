@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Paper,
   List,
@@ -11,26 +12,19 @@ import {
 } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
+import { selectItems, selectTickedItems, toggleItem } from "store/item";
 import { useCoreStyles } from "theme";
 
-const items = [{ item: "Test 1" }, { item: "Test 2" }, { item: "Test 3" }];
-
 export const KitList = () => {
+  const items = useSelector(selectItems);
+  const ticked = useSelector(selectTickedItems);
+  const dispatch = useDispatch();
   const coreCss = useCoreStyles();
-  const [checked, setChecked] = useState([]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value.item);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value.item);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+  const handleToggle = useCallback(
+    (value) => () => dispatch(toggleItem(value)),
+    [dispatch]
+  );
 
   return (
     <List component={Paper} className={coreCss.list}>
@@ -39,13 +33,13 @@ export const KitList = () => {
           <ListItemIcon>
             <Checkbox
               edge="start"
-              checked={checked.indexOf(item.item) !== -1}
+              checked={ticked.includes(item.name)}
               tabIndex={-1}
               disableRipple
               inputProps={{ "aria-labelledby": `checkbox-${item.item}` }}
             />
           </ListItemIcon>
-          <ListItemText primary={item.item} />
+          <ListItemText primary={item.name} secondary={item.category} />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="delete">
               <DeleteIcon />

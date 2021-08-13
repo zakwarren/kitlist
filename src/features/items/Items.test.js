@@ -21,7 +21,7 @@ jest.mock("react-router-dom", () => ({
 describe("<Items />", () => {
   let wrapper;
   const state = {
-    item: { items: [{ name: "Test" }], tickedItems: [] },
+    item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
   };
 
   beforeAll(() => {

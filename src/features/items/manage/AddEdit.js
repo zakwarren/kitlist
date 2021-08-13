@@ -12,9 +12,11 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  MenuItem,
 } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 
+import { selectCategories } from "store/category";
 import { selectItems, addItem, editItem } from "store/item";
 
 const useStyles = makeStyles({
@@ -24,11 +26,15 @@ const useStyles = makeStyles({
 
 export const AddEditItem = (props) => {
   const { isOpen, onClose, isEdit, item } = props;
+  const categories = useSelector(selectCategories);
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
   const css = useStyles();
 
-  const initialValues = { name: item?.name || "" };
+  const initialValues = {
+    name: item?.name || "",
+    category: item?.category || categories[0]?.name || "",
+  };
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -48,6 +54,7 @@ export const AddEditItem = (props) => {
         }
         return existing.length === 0;
       }),
+    category: yup.string().required("Select a category"),
   });
   const onSubmit = (values, { resetForm }) => {
     if (isEdit) {
@@ -94,6 +101,32 @@ export const AddEditItem = (props) => {
                       String(form.errors.name)
                     }
                   />
+                )}
+              </Field>
+              <Field>
+                {({ form }) => (
+                  <TextField
+                    id="category"
+                    name="category"
+                    label="Category"
+                    select
+                    value={form.values.category}
+                    onChange={handleChange}
+                    error={Boolean(
+                      form.touched.category && form.errors.category
+                    )}
+                    helperText={
+                      form.touched.category &&
+                      form.errors.category &&
+                      String(form.errors.category)
+                    }
+                  >
+                    {categories.map((cat, i) => (
+                      <MenuItem key={i} value={cat?.name}>
+                        {cat?.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 )}
               </Field>
               <DialogActions>

@@ -75,7 +75,7 @@ export const Items = () => {
       <List className={coreCss.list}>
         {items.map((item, i) => (
           <ListItem key={i} divider>
-            <ListItemText primary={item.name} />
+            <ListItemText primary={item.name} secondary={item.category} />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="edit" onClick={editItem(item)}>
                 <EditIcon />

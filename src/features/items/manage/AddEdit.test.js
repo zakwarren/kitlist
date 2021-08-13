@@ -14,12 +14,13 @@ import { AddEditItem } from "./AddEdit";
 describe("<AddEditItem />", () => {
   let wrapper;
   const state = {
-    item: { items: [{ name: "Test" }], tickedItems: [] },
+    category: { categories: [{ name: "test 1" }], tickedCategories: [] },
+    item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
   };
   const props = {
     isOpen: true,
     onClose: jest.fn,
-    item: { name: "Test" },
+    item: { name: "Test", category: "test cat" },
   };
 
   beforeAll(() => {
