@@ -1,5 +1,6 @@
 import reducer, {
   clearItems,
+  getItems,
   addItem,
   editItem,
   deleteItem,
@@ -21,14 +22,31 @@ describe("items slice", () => {
       items: [{ name: "test 1" }, { name: "test 2" }],
       tickedItems: ["test 1"],
     };
-    const newState = reducer(state, { type: clearItems.type });
+    const newState = reducer(state, { type: clearItems.fulfilled });
 
     expect(newState).toEqual(initialState);
   });
 
+  it("should get the items", () => {
+    const payload = [
+      { name: "test 1", category: "test" },
+      { name: "test 2", category: "test" },
+    ];
+    const newState = reducer(initialState, {
+      type: getItems.fulfilled,
+      payload,
+    });
+
+    expect(newState).not.toEqual(initialState);
+    expect(newState.items).toHaveLength(2);
+  });
+
   it("should add an item", () => {
     const payload = { name: "test 1" };
-    const newState = reducer(initialState, { type: addItem.type, payload });
+    const newState = reducer(initialState, {
+      type: addItem.fulfilled,
+      payload,
+    });
 
     expect(newState).not.toEqual(initialState);
     expect(newState.items).toHaveLength(1);
@@ -43,7 +61,7 @@ describe("items slice", () => {
       oldItem: { name: "test 1" },
       newItem: { name: "new item" },
     };
-    const newState = reducer(state, { type: editItem.type, payload });
+    const newState = reducer(state, { type: editItem.fulfilled, payload });
 
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(2);
@@ -56,7 +74,7 @@ describe("items slice", () => {
       tickedItems: [],
     };
     const payload = { name: "test 1" };
-    const newState = reducer(state, { type: deleteItem.type, payload });
+    const newState = reducer(state, { type: deleteItem.fulfilled, payload });
 
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(1);
@@ -117,7 +135,10 @@ describe("items slice", () => {
       tickedItems: [],
     };
     const payload = { name: "cat 1" };
-    const newState = reducer(state, { type: deleteCategory.fulfilled, payload });
+    const newState = reducer(state, {
+      type: deleteCategory.fulfilled,
+      payload,
+    });
 
     expect(newState).not.toEqual(state);
     expect(newState.items).toHaveLength(1);

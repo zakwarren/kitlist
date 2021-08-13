@@ -59,5 +59,6 @@ DeleteItem.propTypes = {
   item: PropTypes.exact({
     id: PropTypes.number,
     name: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
   }),
 };

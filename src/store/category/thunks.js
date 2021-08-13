@@ -3,10 +3,7 @@ import db from "../db";
 
 export const clearCategories = createAsyncThunk(
   "category/clear",
-  async (category) => {
-    await db.category.clear();
-    return category;
-  }
+  async () => await db.category.clear()
 );
 
 export const getCategories = createAsyncThunk("category/get", async () => {

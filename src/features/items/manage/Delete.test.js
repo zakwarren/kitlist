@@ -17,7 +17,7 @@ describe("<DeleteItem />", () => {
   const props = {
     isOpen: true,
     onClose: jest.fn,
-    item: { name: "Test" },
+    item: { name: "Test", category: "test 1" },
   };
 
   beforeAll(() => {

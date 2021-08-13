@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { clearItems, getItems, addItem, editItem, deleteItem } from "./thunks";
 import { editCategory, deleteCategory } from "../category";
 
 const initialState = { items: [], tickedItems: [] };
@@ -8,20 +9,6 @@ const itemSlice = createSlice({
   name: "item",
   initialState,
   reducers: {
-    clearItems: () => initialState,
-    addItem: (state, action) => void state.items.push(action.payload),
-    editItem: (state, action) => {
-      const { oldItem, newItem } = action.payload;
-      const existingIndex = state.items.findIndex(
-        (i) => i.name === oldItem.name
-      );
-      state.items[existingIndex] = newItem;
-    },
-    deleteItem: (state, action) => {
-      const item = action.payload;
-      const filtered = state.items.filter((i) => i.name !== item.name);
-      state.items = filtered;
-    },
     toggleItem: (state, action) => {
       const item = action.payload;
       const existing = state.tickedItems.find((i) => i === item.name);
@@ -35,6 +22,23 @@ const itemSlice = createSlice({
     },
   },
   extraReducers: {
+    [clearItems.fulfilled]: () => initialState,
+    [getItems.fulfilled]: (state, action) =>
+      void (state.items = action.payload),
+    [addItem.fulfilled]: (state, action) =>
+      void state.items.push(action.payload),
+    [editItem.fulfilled]: (state, action) => {
+      const { oldItem, newItem } = action.payload;
+      const existingIndex = state.items.findIndex(
+        (i) => i.name === oldItem.name
+      );
+      state.items[existingIndex] = newItem;
+    },
+    [deleteItem.fulfilled]: (state, action) => {
+      const item = action.payload;
+      const filtered = state.items.filter((i) => i.name !== item.name);
+      state.items = filtered;
+    },
     [editCategory.fulfilled]: (state, action) => {
       const oldCat = action.payload.oldCategory.name;
       const newCat = action.payload.newCategory.name;
@@ -59,7 +63,8 @@ const itemSlice = createSlice({
 
 export default itemSlice.reducer;
 
-export const { clearItems, addItem, editItem, deleteItem, toggleItem } =
-  itemSlice.actions;
+export const { toggleItem } = itemSlice.actions;
+
+export { clearItems, getItems, addItem, editItem, deleteItem };
 
 export { selectItems, selectTickedItems } from "./selectors";
