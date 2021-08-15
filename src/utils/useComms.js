@@ -37,13 +37,13 @@ export const useComms = () => {
           });
           break;
         case "installed":
-          enqueueSnackbar("Home is now installed", {
+          enqueueSnackbar("Kit list is now installed", {
             variant: "info",
             key: "installed",
           });
           break;
         case "offline":
-          enqueueSnackbar("Home is running in offline mode", {
+          enqueueSnackbar("Kit list is running in offline mode", {
             variant: "info",
             key: "offline",
           });
