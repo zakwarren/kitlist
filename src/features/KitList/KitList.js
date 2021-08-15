@@ -56,10 +56,12 @@ export const KitList = () => {
   const categoryItems = items.filter((i) =>
     tickedCategories.includes(i.category)
   );
-
   const itemsToDisplay = categoryItems.filter(
     (i) => !removedItems.includes(i.name)
   );
+  const hasCatsTicked = tickedCategories.length > 0;
+  const hasRemovedITems = removedItems.length > 0;
+  const hasTickedItems = tickedItems.length > 0;
 
   if (itemsToDisplay.length === 0) {
     return (
@@ -75,21 +77,25 @@ export const KitList = () => {
         Check items off as you pack
       </Typography>
       <div>
-        <IconButton
-          title="Uncheck All"
-          aria-label="uncheck all button"
-          onClick={() => dispatch(clearTicked())}
-        >
-          <UncheckIcon />
-        </IconButton>
-        <IconButton
-          title="Show All"
-          aria-label="show all button"
-          onClick={() => dispatch(clearRemoved())}
-        >
-          <ShowIcon />
-        </IconButton>
-        <DownloadButton />
+        {hasCatsTicked && <DownloadButton />}
+        {hasTickedItems && (
+          <IconButton
+            title="Uncheck All"
+            aria-label="uncheck all button"
+            onClick={() => dispatch(clearTicked())}
+          >
+            <UncheckIcon />
+          </IconButton>
+        )}
+        {hasRemovedITems && (
+          <IconButton
+            title="Show All"
+            aria-label="show all button"
+            onClick={() => dispatch(clearRemoved())}
+          >
+            <ShowIcon />
+          </IconButton>
+        )}
       </div>
       <List component={Paper} className={coreCss.list}>
         {itemsToDisplay.map((item, i) => (
