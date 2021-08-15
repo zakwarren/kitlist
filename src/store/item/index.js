@@ -33,6 +33,7 @@ const itemSlice = createSlice({
       }
       state.removedItems.push(item.name);
     },
+    uploadItems: (state, action) => void (state.items = action.payload),
   },
   extraReducers: {
     [clearItems.fulfilled]: () => initialState,
@@ -106,8 +107,13 @@ const itemSlice = createSlice({
 
 export default itemSlice.reducer;
 
-export const { clearTicked, clearRemoved, toggleItem, removeItem } =
-  itemSlice.actions;
+export const {
+  clearTicked,
+  clearRemoved,
+  toggleItem,
+  removeItem,
+  uploadItems,
+} = itemSlice.actions;
 
 export { clearItems, getItems, addItem, editItem, deleteItem };
 

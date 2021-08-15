@@ -6,6 +6,7 @@ import { Menu } from "./menu";
 import { KitList } from "./kitList";
 import { Categories, ManageCategories } from "./categories";
 import { Items } from "./items";
+import { Upload } from "./upload";
 
 export const Layout = () => {
   const { pathname } = useLocation();
@@ -13,6 +14,7 @@ export const Layout = () => {
   return (
     <AppShell sideBarContent={pathname === "/list" ? <Categories /> : null}>
       <Switch>
+        <Route path="/upload" exact component={Upload} />
         <Route path="/items" exact component={Items} />
         <Route path="/categories" exact component={ManageCategories} />
         <Route path="/list" exact component={KitList} />

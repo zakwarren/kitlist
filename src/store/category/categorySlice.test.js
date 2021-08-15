@@ -6,6 +6,7 @@ import reducer, {
   editCategory,
   deleteCategory,
   toggleCategory,
+  uploadCategories,
 } from ".";
 
 describe("categories slice", () => {
@@ -115,5 +116,17 @@ describe("categories slice", () => {
 
     expect(newState).not.toEqual(state);
     expect(newState.tickedCategories).toHaveLength(0);
+  });
+
+  it("should set categories and ticked categories on upload", () => {
+    const payload = [{ name: "test 1" }, { name: "test 2" }];
+    const newState = reducer(initialState, {
+      type: uploadCategories.type,
+      payload,
+    });
+
+    expect(newState).not.toEqual(initialState);
+    expect(newState.categories).toHaveLength(2);
+    expect(newState.tickedCategories).toHaveLength(2);
   });
 });

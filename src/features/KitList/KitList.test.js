@@ -43,7 +43,11 @@ describe("<KitList />", () => {
   it("should render a <Typography /> component if no ticked categories", () => {
     const untickedState = {
       category: { tickedCategories: [] },
-      item: { items: [{ name: "Test", category: "test 1" }], tickedItems: [] },
+      item: {
+        items: [{ name: "Test", category: "test 1" }],
+        tickedItems: [],
+        removedItems: [],
+      },
     };
     jest
       .spyOn(redux, "useSelector")
@@ -62,10 +66,10 @@ describe("<KitList />", () => {
     expect(element.text()).toEqual("Check items off as you pack");
   });
 
-  it("should render multiple <IconButton /> components", () => {
+  it("should render a <IconButton /> component", () => {
     const element = wrapper.find(IconButton);
 
-    expect(element).toHaveLength(3);
+    expect(element).toHaveLength(1);
   });
 
   it("should render a <DownloadButton /> component", () => {

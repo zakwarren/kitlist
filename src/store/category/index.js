@@ -28,6 +28,11 @@ const categorySlice = createSlice({
       }
       state.tickedCategories.push(cat.name);
     },
+    uploadCategories: (state, action) => {
+      const cats = action.payload;
+      state.categories = cats;
+      state.tickedCategories = cats.map((c) => c.name);
+    },
   },
   extraReducers: {
     [clearCategories.fulfilled]: () => initialState,
@@ -52,7 +57,8 @@ const categorySlice = createSlice({
 
 export default categorySlice.reducer;
 
-export const { clearSelected, toggleCategory } = categorySlice.actions;
+export const { clearSelected, toggleCategory, uploadCategories } =
+  categorySlice.actions;
 
 export {
   clearCategories,
