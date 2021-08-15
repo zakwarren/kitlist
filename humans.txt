@@ -1,0 +1,15 @@
+Kit List
+
+The humans.txt file explains the team behind this app.
+
+_______________________________________________________________________________
+
+PEOPLE
+
+This web app was hand-crafted by:
+
+Zak Warren
+Software Developer
+https://zakwarren.github.io/
+
+_______________________________________________________________________________
