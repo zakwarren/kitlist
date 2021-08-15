@@ -10,16 +10,13 @@ import {
   useTheme,
   useMediaQuery,
 } from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { Menu as MenuIcon, GetApp as GetAppIcon } from "@material-ui/icons";
+
+import { useInstaller } from "utils";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: { display: "none" },
-  },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
@@ -27,6 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerTitle: { padding: theme.spacing(2), cursor: "pointer" },
   drawerPaper: { width: drawerWidth },
+  buttons: {
+    [theme.breakpoints.up("sm")]: {
+      position: "absolute",
+      top: "1rem",
+      left: `calc(${drawerWidth}px + 1rem)`,
+    },
+  },
+  menuButton: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: { display: "none" },
+  },
   content: {
     padding: theme.spacing(3),
     [theme.breakpoints.up("sm")]: { marginLeft: drawerWidth },
@@ -35,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AppShell = (props) => {
   const { sideBarContent, children } = props;
+  const [canInstall, promptForInstall] = useInstaller();
   const css = useStyles();
   const theme = useTheme();
   const { push } = useHistory();
@@ -59,15 +69,6 @@ export const AppShell = (props) => {
 
   return (
     <>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDrawerToggle}
-        className={css.menuButton}
-      >
-        <MenuIcon />
-      </IconButton>
       <nav className={css.drawer} aria-label="mailbox folders">
         <Drawer
           variant={!isDesktop ? "temporary" : "permanent"}
@@ -80,6 +81,26 @@ export const AppShell = (props) => {
           {drawer}
         </Drawer>
       </nav>
+      <div className={css.buttons}>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={css.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
+        {canInstall && (
+          <IconButton
+            color="inherit"
+            aria-label="install app"
+            onClick={promptForInstall}
+          >
+            <GetAppIcon />
+          </IconButton>
+        )}
+      </div>
       <main className={css.content}>{children}</main>
     </>
   );
