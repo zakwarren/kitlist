@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Redirect, Route, useLocation } from "react-router-dom";
 
+import { useComms } from "utils";
 import { AppShell } from "./appShell";
 import { Menu } from "./menu";
 import { KitList } from "./kitList";
@@ -9,6 +10,7 @@ import { Items } from "./items";
 import { Upload } from "./upload";
 
 export const Layout = () => {
+  useComms();
   const { pathname } = useLocation();
 
   return (

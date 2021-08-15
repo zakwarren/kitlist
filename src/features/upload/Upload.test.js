@@ -10,6 +10,10 @@ jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useHistory: () => ({ push: jest.fn }),
 }));
+jest.mock("notistack", () => ({
+  ...jest.requireActual("notistack"),
+  useSnackbar: () => ({ enqueueSnackbar: jest.fn }),
+}));
 
 describe("<Upload />", () => {
   let wrapper;
